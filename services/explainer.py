@@ -9,6 +9,24 @@ NEXT_STEPS = {
 
 
 def generate_explanation(alert: Alert) -> str:
+    """Build a rule-based explanation from an alert's fields.
+
+    The explanation compares the metric value with its threshold, selects a
+    recommended next step based on severity, and includes the acknowledgement
+    text.
+
+    Args:
+        alert: Alert whose severity, source, title, metric, value, and threshold
+            are used to build the explanation.
+
+    Returns:
+        An explanation string, including "Not yet acknowledged" when the alert
+        has no acknowledged-by value.
+
+    Raises:
+        KeyError: If the alert's severity has no configured recommended next
+            step.
+    """
     if alert.metric_value > alert.threshold:
         comparison = "exceeded"
     elif alert.metric_value < alert.threshold:

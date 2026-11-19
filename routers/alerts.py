@@ -40,6 +40,7 @@ def get_alert(alert_id: int, db: Session = Depends(get_db)) -> Alert:
 
 @router.post("/{alert_id}/explain", response_model=ExplainResponse)
 def explain_alert(alert_id: int, db: Session = Depends(get_db)) -> ExplainResponse:
+    """Return a rule-based explanation for an alert, or 404 if it does not exist."""
     alert = db.get(Alert, alert_id)
     if alert is None:
         raise HTTPException(
